@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Enter the names of the players</h2>
+
+<form [formGroup]="players" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="d-flex flex-column">
+    <mat-form-field>
+      <mat-label>Player - 1 (X)</mat-label>
+      <input matInput formControlName="player1"/>
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Player - 2 (O)</mat-label>
+      <input matInput formControlName="player2"/>
+      <mat-error>Required</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button type="submit" [disabled]="players.invalid">Submit</button>
+  </mat-dialog-actions>
+</form>
