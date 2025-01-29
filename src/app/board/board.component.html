@@ -1,6 +1,7 @@
-<section w-full >
-  <!-- row 1 -->
-  <div class="square-container  h-48" *ngFor="let square of boardService.board">
-    <app-square [square]="square" border-blue  > </app-square>
-  </div>
+<section>
+  @for (square of boardService.board; track $index) {
+    <div>
+      <app-square [square]="square"></app-square>
+    </div>
+  }
 </section>

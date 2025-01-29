@@ -1,0 +1,19 @@
+<div class="congrats-container">
+  <h1 mat-dialog-title>Congratulations!</h1>
+  <div mat-dialog-content>
+    <p>Great job, {{ data.playerName }}! 🎉</p>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="progress"
+      color="accent"
+    ></mat-progress-bar>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="closeDialog()">
+      Close
+    </button>
+  </div>
+</div>

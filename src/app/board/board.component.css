@@ -1,15 +1,11 @@
 section {
-  width: 600px;
+  width: 24rem;
+  height: 24rem;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-content: space-between;
-  align-items: center;
-  margin: 7% auto 50px auto;
   flex-wrap: wrap;
+  background-color: black;
+  border-radius: 1rem;
+  overflow: hidden;
 }
-
-.square-container {
-  flex: 0 0 32%;
-  /* height: 100%; */
-}
-

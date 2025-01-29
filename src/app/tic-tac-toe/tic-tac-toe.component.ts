@@ -1,39 +1,37 @@
-import { Component, inject, signal } from '@angular/core';
-import { NewGameDialogComponent } from '../new-game-dialog/new-game-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
-import { MatButton } from '@angular/material/button';
+import { MatFabButton } from '@angular/material/button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatIcon } from '@angular/material/icon';
+
 import { GameService } from '../services/game.service';
 import { BoardComponent } from '../board/board.component';
+import { NewGameDialogComponent } from '../new-game-dialog/new-game-dialog.component';
+import { CongratulationDialogComponent } from '../congratulation-dialog/congratulation-dialog.component';
 
 @Component({
   selector: 'app-tic-tac-toe',
-  imports: [
-    NgForOf,
-    MatButton,
-    BoardComponent,
-    NgIf,
-    NgClass
-  ],
+  imports: [BoardComponent, MatFabButton, MatIcon],
   templateUrl: './tic-tac-toe.component.html',
   styleUrl: './tic-tac-toe.component.css'
 })
 export class TicTacToeComponent {
-  player1 = signal('');
-  player2 = signal('');
-  board!: string[][];
-  currentPlayer!: string;
-  winner!: string;
-  draw!: boolean;
-  player1Score!: number;
-  player2Score!: number;
-  ties = signal(0);
+  player1: WritableSignal<string> = signal('');
+  player2: WritableSignal<string> = signal('');
 
-  protected gameService: GameService = inject(GameService);
+  ties: WritableSignal<number> = signal(0);
 
-  constructor(public dialog: MatDialog) {
+  protected readonly gameService: GameService = inject(GameService);
+  private readonly dialog: MatDialog = inject(MatDialog);
+
+  constructor() {
     this.newGame();
+    this.gameService.winner$.pipe(takeUntilDestroyed()).subscribe((hasWinner) => {
+      if (hasWinner) {
+        this.showCongratulationsDialog();
+        this.resetGame();
+      }
+    });
   }
 
   newGame() {
@@ -53,7 +51,14 @@ export class TicTacToeComponent {
     });
   }
 
-  resetGame(){
+  resetGame() {
     this.gameService.newGame()
+  }
+
+  showCongratulationsDialog(): void {
+    this.dialog.open(CongratulationDialogComponent, {
+      data: { playerName: this.gameService.activePlayer },
+      disableClose: true
+    });
   }
 }

@@ -1,45 +1,54 @@
 <div class="container">
-  <h1>Tic-Tac-Toe</h1>
+  <h1 class="">Tic - Tac - Toe</h1>
 
   @if (player1() && player2()) {
-    <div class="scores">
-      <p>Player 1 (X) - {{ player1() }}
-        @if (player1Score) {
-          : {{ player1Score }} wins
-        }
-      </p>
-
-      <p>Player 2 (O) - {{ player2() }}
-        @if (player2Score) {
-          : {{ player2Score }} wins
-        }
-      </p>
-
-      @if(ties()) {
-        <p>TIES: {{ties()}}</p>
-      }
+    <div class="row m-4 text-center">
+      <div class="col-4">
+        <div class="d-flex align-items-center justify-content-center gap-2">
+          <mat-icon fontIcon="account_box"></mat-icon>
+          {{ player1() }}
+        </div>
+      </div>
+      <div class="col-4"></div>
+      <div class="col-4">
+        <div class="d-flex align-items-center justify-content-center gap-2">
+          <mat-icon fontIcon="account_box"></mat-icon>
+          {{ player2() }}
+        </div>
+      </div>
+      <div class="col-4 text-center">
+        <div class="fs-1 bg-light px-4 py-1 rounded border border-2 border-secondary">
+          X
+        </div>
+      </div>
+      <div class="col-4 fs-1 text-center">
+        {{ gameService.player1Score() }} - {{ gameService.player2Score() }}
+      </div>
+      <div class="col-4 text-center">
+        <div class="fs-1 bg-light px-4 py-1 rounded border border-2 border-secondary">
+          O
+        </div>
+      </div>
     </div>
   }
 
-  @if(!(player1() && player2())) {
-    <button mat-raised-button color="accent" (click)="newGame()">New Game</button>
+  @if (!(player1() && player2())) {
+    <button mat-fab extended (click)="newGame()">New Game</button>
   } @else {
     <div class="header">
-      <h1 class="text-center text-orange "
-          *ngIf="gameService.isGameRunning"
-          [ngClass]="{'text-teal': gameService.activePlayer == 'O'}"
-      >
+      <h5 class="text-center text-danger">
         {{ gameService.activePlayer }}'S TURN
-      </h1>
-      <h1 class="text-center text-grey-darker" *ngIf="!gameService.isGameRunning" >  Tic-Tac-Toe </h1>
+      </h5>
     </div>
     <app-board></app-board>
-    <h1 class="text-center  text-grey-darker" *ngIf="gameService.winner">  {{ gameService.activePlayer }} WON </h1>
 
-    <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mx-auto block mt-5 "
-            *ngIf="gameService.gameOver"
-            (click)="resetGame()"
-    > Reset
-    </button>
+    @if (gameService.gameOver) {
+      <button
+        mat-fab
+        class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mx-auto block mt-5 "
+        (click)="resetGame()">
+        Reset
+      </button>
+    }
   }
 </div>
