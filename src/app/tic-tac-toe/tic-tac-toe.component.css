@@ -4,13 +4,3 @@
   align-items: center;
   margin-top: 20px;
 }
-
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-gap: 10px;
-}
-
-.scores {
-  margin-bottom: 20px;
-}

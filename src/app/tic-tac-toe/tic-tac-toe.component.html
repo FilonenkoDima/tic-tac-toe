@@ -1,19 +1,19 @@
 <div class="container">
-  <h1 class="">Tic - Tac - Toe</h1>
+  <h1 class="fw-bolder" style="color: crimson">Tic - Tac - Toe</h1>
 
-  @if (player1() && player2()) {
+  @if (player1Name() && player2Name()) {
     <div class="row m-4 text-center">
       <div class="col-4">
         <div class="d-flex align-items-center justify-content-center gap-2">
           <mat-icon fontIcon="account_box"></mat-icon>
-          {{ player1() }}
+          {{ player1Name() }}
         </div>
       </div>
       <div class="col-4"></div>
       <div class="col-4">
         <div class="d-flex align-items-center justify-content-center gap-2">
           <mat-icon fontIcon="account_box"></mat-icon>
-          {{ player2() }}
+          {{ player2Name() }}
         </div>
       </div>
       <div class="col-4 text-center">
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="col-4 fs-1 text-center">
-        {{ gameService.player1Score() }} - {{ gameService.player2Score() }}
+        {{ player1Score() }} - {{ player2Score() }}
       </div>
       <div class="col-4 text-center">
         <div class="fs-1 bg-light px-4 py-1 rounded border border-2 border-secondary">
@@ -30,19 +30,27 @@
         </div>
       </div>
     </div>
-  }
 
-  @if (!(player1() && player2())) {
-    <button mat-fab extended (click)="newGame()">New Game</button>
-  } @else {
     <div class="header">
       <h5 class="text-center text-danger">
-        {{ gameService.activePlayer }}'S TURN
+        {{ activePlayer() }}'S TURN
       </h5>
     </div>
     <app-board></app-board>
 
-    @if (gameService.gameOver) {
+    <div class="d-flex justify-content-evenly w-50 mt-5 fs-4 fw-bold border-top border-2 pt-2">
+      <div>
+        <span class="text-danger">TIES: </span>
+        <span class="text-warning">{{ tiesScore() }}</span>
+      </div>
+
+      <div>
+        <span class="text-danger">DRAWS: </span>
+        <span class="text-warning">{{ drawScore() }}</span>
+      </div>
+    </div>
+
+    @if (gameService.gameOver()) {
       <button
         mat-fab
         class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded mx-auto block mt-5 "

@@ -15,7 +15,7 @@ export class SquareComponent {
 
   changePlayer(){
     if (!this.square().state){
-      this.square().state = this.gameService.activePlayer;
+      this.square().state = this.gameService.activePlayer();
       this.gameService.changePlayerTurn( this.square());
     }
   }

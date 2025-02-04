@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFabButton } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -16,13 +16,17 @@ import { CongratulationDialogComponent } from '../congratulation-dialog/congratu
   styleUrl: './tic-tac-toe.component.css'
 })
 export class TicTacToeComponent {
-  player1: WritableSignal<string> = signal('');
-  player2: WritableSignal<string> = signal('');
-
-  ties: WritableSignal<number> = signal(0);
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   protected readonly gameService: GameService = inject(GameService);
-  private readonly dialog: MatDialog = inject(MatDialog);
+
+  player1Name: WritableSignal<string> = signal('');
+  player2Name: WritableSignal<string> = signal('');
+  activePlayer: WritableSignal<string> = this.gameService.activePlayer;
+  player1Score: WritableSignal<number> = this.gameService.player1Score;
+  player2Score: WritableSignal<number> = this.gameService.player2Score;
+  drawScore: WritableSignal<number> = this.gameService.drawScore;
+  tiesScore: Signal<number> = computed(() => this.player1Score() + this.player2Score() + this.drawScore());
 
   constructor() {
     this.newGame();
@@ -37,27 +41,27 @@ export class TicTacToeComponent {
   newGame() {
     const dialogRef = this.dialog.open(NewGameDialogComponent, {
       data: {
-        player1: this.player1(),
-        player2: this.player2()
+        player1: this.player1Name(),
+        player2: this.player2Name()
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.player1.set(result.player1);
-        this.player2.set(result.player2);
+        this.player1Name.set(result.player1);
+        this.player2Name.set(result.player2);
         this.gameService.newGame()
       }
     });
   }
 
   resetGame() {
-    this.gameService.newGame()
+    this.gameService.newGame();
   }
 
   showCongratulationsDialog(): void {
     this.dialog.open(CongratulationDialogComponent, {
-      data: { playerName: this.gameService.activePlayer },
+      data: { playerName: this.gameService.activePlayer() },
       disableClose: true
     });
   }
