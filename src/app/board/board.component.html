@@ -1,5 +1,5 @@
 <section>
-  @for (square of boardService.board; track $index) {
+  @for (square of $board(); track $index) {
     <div>
       <app-square [square]="square"></app-square>
     </div>

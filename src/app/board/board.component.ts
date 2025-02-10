@@ -11,4 +11,6 @@ import { GameService } from '../services/game.service';
 })
 export class BoardComponent {
   public boardService: GameService = inject(GameService);
+
+  $board = this.boardService.$board;
 }

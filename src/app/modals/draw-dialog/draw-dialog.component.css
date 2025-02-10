@@ -1,0 +1,16 @@
+.draw-container {
+  text-align: center;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+}
+
+.draw-container h1 {
+  color: #ff5722;
+  margin-bottom: 15px;
+}
+
+.draw-container p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}

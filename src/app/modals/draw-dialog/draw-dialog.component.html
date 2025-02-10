@@ -1,0 +1,19 @@
+<div class="draw-container">
+  <h1 mat-dialog-title>It's a Draw!</h1>
+  <div mat-dialog-content>
+    <p>No one wins this round. Try again! 🤝</p>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="progress"
+      color="accent"
+    ></mat-progress-bar>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="closeDialog()">
+      Close
+    </button>
+  </div>
+</div>
